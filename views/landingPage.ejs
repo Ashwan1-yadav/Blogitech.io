@@ -1,0 +1,298 @@
+<%- include("./partials/header") %>
+
+<div class="bg-grey-200 overflow-x-hidden scrollbar-hide">
+  <header class="sticky top-0 bg-indigo-100 shadow-md">
+      <div class="container flex flex-col sm:flex-row justify-between items-center mx-auto py-2 px-4">
+          <div class="flex items-center text-2xl">
+              <div class="w-12 mr-3">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
+                      <path fill="#BEE3F8" d="M44,7L4,23l40,16l-7-16L44,7z M36,23H17l18-7l1,6V23z"></path>
+                      <path fill="#3182CE"
+                          d="M40.212,10.669l-5.044,11.529L34.817,23l0.351,0.802l5.044,11.529L9.385,23L40.212,10.669 M44,7L4,23 l40,16l-7-16L44,7L44,7z">
+                      </path>
+                      <path fill="#3182CE"
+                          d="M36,22l-1-6l-18,7l17,7l-2-5l-8-2h12V22z M27.661,21l5.771-2.244L33.806,21H27.661z">
+                      </path>
+                  </svg>
+              </div>
+              <img src="../public/images/Blogism.io.svg" alt="">
+              <a class="font-bold text-3xl cursor-pointer" href="/home">Blogitech.io</a>
+          </div>
+          <div class="flex mt-2 sm:mt-0 text-lg font-semibold">
+              <a class="px-4" href="#home">Home</a>
+              <a class="px-4" href="#features">Latest trends</a>
+              <% if(locals.user){ %>
+                <a class="px-4" href="/blog/createblog">Write A Blog</a>
+                <% } else { %>
+                    <a class="px-4" href="#writeblog">Write A Blog</a>
+                    <% }%>
+              
+              <a class="px-4" href="#blogs">Blogs</a>
+              <a class="px-4" href="#aboutus">About Us</a>
+          </div>
+          <div class="hidden md:block">
+            <% if(locals.user){ %>
+                <div class="flex justify-center ">
+                    <img class="mt-2 h-[40px] object-cover border-1 rounded-full border-indigo-500" src="<%= locals.user.profileImage %>" alt="">
+                    <p class="mt-3 mx-3 font-semibold"><%= locals.user.fullname %></p>
+                    <a href="/user/logout" type="button"
+                    class=" mx-3 mt-[9px] py-2 px-4 shadow-md text-sm font-semibold bg-purple-500 hover:bg-teal-600 rounded text-black ">Logout
+                </a>
+                </div>
+            <% } else { %>
+                <a href="/user/signup" type="button"
+                class=" mx-3 py-2 px-4 shadow-md text-sm font-semibold bg-purple-600 hover:bg-teal-600 rounded text-white ">Sign Up
+            </a>
+                <a href="/user/signin" type="button"
+                    class=" py-2 px-4 shadow-md text-sm font-semibold bg-purple-600 hover:bg-teal-600 rounded text-white ">Login
+                </a>
+            <% }%>
+            
+              
+          </div>
+          
+           
+        
+      </div>
+  </header>
+
+  <main id="home" class="text-gray-900">
+     <section class="pt-20 md:pt-40">
+          <div class="container mx-auto px-8 lg:flex">
+              <div class="text-center lg:text-left lg:w-1/2">
+                  <h1 class="text-4xl lg:text-5xl xl:text-6xl font-bold leading-none">Your Guide to Tomorrow’s Tech World</h1>
+                  <p class="text-xl lg:text-2xl mt-6 font-light">go-to source for the latest in technology, innovation, and digital trends. We cover everything from breakthrough gadgets and software reviews to deep dives into AI, cybersecurity, and the future of tech.
+                  </p>
+                  <p class="mt-8 md:mt-12">
+                    <% if(locals.user) { %>
+                        <a href="/blog/createblog" type="button"
+                        class=" py-3 px-6 bg-purple-600 hover:bg-teal-600 rounded text-white font-semibold">Get Started
+                      </a>
+                    <% }else { %>
+                        <a href="/user/signup" type="button"
+                        class=" py-3 px-6 bg-purple-600 hover:bg-teal-600 rounded text-white font-semibold">Get Started
+                      </a>
+                    <% } %>
+                      
+                  </p>
+                  
+              </div>
+               
+              <div class="lg:w-1/2">
+                  <img src="https://media.istockphoto.com/id/1480027960/vector/businessman-using-laptop-hotline-operator-help-clients-to-solve-problems-customer-service.jpg?s=612x612&w=0&k=20&c=jfrcv1EuD8PLAK0gMLIObd4fV0TjmFVrS4cZEHJvrS4=" alt="">
+              </div>
+          </div>
+      </section>
+
+     
+      <section id="features" class=" mt-[-50px] py-20 lg:pb-40 lg:pt-48">
+          <div class="container mx-auto text-center">
+              <h2 class="text-3xl lg:text-5xl font-semibold">Latest From Tech</h2>
+              <div class="flex flex-col sm:flex-row sm:-mx-3 mt-12">
+                  <div class="flex-1 px-3">
+                      <div class="p-12 rounded-lg border border-solid border-gray-200 mb-8"
+                          style="box-shadow:0 10px 28px rgba(0,0,0,.08)">
+                          <p class="font-semibold text-xl">Quantum Computing
+
+                          </p>
+                          <p class="mt-4">Quantum computers leverage the properties of quantum mechanics to process information exponentially faster than classical computers for specific tasks...
+                          </p>
+                      </div>
+                  </div>
+                  <div class="flex-1 px-3">
+                      <div class="p-12 rounded-lg border border-solid border-gray-200 mb-8"
+                          style="box-shadow:0 10px 28px rgba(0,0,0,.08)">
+                          <p class="font-semibold text-xl">5G Expansion
+                          </p>
+                          <p class="mt-4">The fifth generation of mobile networks, 5G, promises significantly faster data download and upload speeds, wider coverage, and more stable connections. The expansion of 5G is facilitating transformative technologies...
+                          </p>
+                      </div>
+                  </div>
+                  <div class="flex-1 px-3">
+                      <div class="p-12 rounded-lg border border-solid border-gray-200 mb-8"
+                          style="box-shadow:0 10px 28px rgba(0,0,0,.08)">
+                          <p class="font-semibold text-xl">Virtual Reality (VR) 2.0
+
+                          </p>
+                          <p class="mt-4">Enhanced VR technologies are offering more immersive and realistic experiences. With improvements in display resolutions, motion tracking, and interactive ...
+                          </p>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </section>
+
+
+
+      <section id="services" class="py-20">
+          <div class="container mx-auto px-16 items-center flex flex-col lg:flex-row mt-[-100px]">
+              <div class="lg:w-1/2">
+                  <div class="lg:pr-32 xl:pr-48">
+                      <h3 class="text-5xl font-semibold leading-tight">Where Curiosity Meets Tech Community</h3>
+                      <p class="mt-8 text-xl font-light leading-relaxed">Our team of enthusiastic marketers
+                          will analyse and evaluate how your company stacks against the closest competitors
+                      </p>
+                  </div>
+              </div>
+              <div class="mt-10 lg:mt-0 w-full lg:w-1/2 undefined">
+                  <img class="rounded-lg shadow-md" src="https://clipart-library.com/2023/297-2978988_blogging-and-content-the-transparent-blog-png-png.png" alt="">
+              </div>
+          </div>
+      </section>
+
+
+
+      <section class="py-20">
+          <div class="container mx-auto px-16 items-center flex flex-col lg:flex-row">
+            <div class="mt-10 lg:mt-0 w-full lg:w-1/2 order-last lg:order-first">
+                  <img src="https://img.freepik.com/free-vector/blog-post-concept-illustration_114360-26355.jpg" alt="">
+                  </img>
+              </div>
+              <div class="lg:w-1/2">
+                  <div class="lg:pl-32 xl:pl-48">
+                      <h3 class="text-5xl font-semibold leading-tight">For the Love of All Things Digital
+                          Steps</h3>
+                      <p class="mt-8 text-xl font-light leading-relaxed">Once the market analysis process is
+                          completed our staff will search for opportunities that are in reach
+                      </p>
+                  </div>
+              </div>
+              
+          </div>
+      </section>
+
+
+      <section class="py-20">
+          <div class="container mx-auto px-16 items-center flex flex-col lg:flex-row">
+              <div class="lg:w-1/2">
+                  <div class="lg:pr-32 xl:pr-48">
+                      <h3 class="text-5xl font-semibold leading-tight">Your Front-Row Seat to Tomorrow
+                      </h3>
+                      <p class="mt-8 text-xl font-light leading-relaxed">With all the information in place you
+                          will be presented with an action plan that your company needs to follow
+                      </p>
+                  </div>
+              </div>
+              <div class="mt-10 lg:mt-0 w-full lg:w-1/2 undefined">
+                  <img src="https://img.freepik.com/free-vector/blogging-illustration-concept_114360-851.jpg" height="200px" alt="">
+              </div>
+          </div>
+      </section>
+
+
+      <section id="stats" class="py-20 lg:pt-32">
+          <div class="container mx-auto text-center">
+              <p class="uppercase tracking-wider text-3xl font-semibold text-gray-600">Our users from Worldwide</p>
+              <div class="flex flex-col sm:flex-row mt-8 lg:px-24">
+                  <div class="w-full sm:w-1/3">
+                      <p class="text-4xl lg:text-6xl font-semibold text-teal-500">+123
+                      </p>
+                      <p class="font-semibold mb-6">India
+                      </p>
+                  </div>
+                  <div class="w-full sm:w-1/3">
+                      <p class="text-4xl lg:text-6xl font-semibold text-teal-500">+89
+                      </p>
+                      <p class="font-semibold mb-6">USA
+                      </p>
+                  </div>
+                  <div class="w-full sm:w-1/3">
+                      <p class="text-4xl lg:text-6xl font-semibold text-teal-500">+45
+                      </p>
+                      <p class="font-semibold mb-6">Japan
+                      </p>
+                  </div>
+              </div>
+          </div>
+      </section>
+
+
+
+      <section id="blogs" class="py-20 lg:py-40">
+          <div  class="container mx-auto ">
+              <p class="font-semibold text-5xl mb-8 text-gray-600 text-center">Blogs From Users
+              </p>
+              
+              
+                  <div class="max-w-screen-xl mx-auto p-5 sm:p-10 md:p-16">
+                    <div class="grid grid-cols-1 md:grid-cols-3 sm:grid-cols-2 gap-10">
+                      <% if(blogs)  { %>
+                        <% blogs.forEach(blog => { %>
+                        <div
+                            class="border-r border-b border-l border-gray-400 lg:border-t lg:border-gray-400 bg-white rounded-b lg:rounded-b-none lg:rounded-r flex flex-col justify-between leading-normal shadow-md">
+                            <div class="h-[200px] overflow-hidden object-cover">
+                              <img  src="<%= blog.coverImageUrl %>" class="w-full mb-3 object-cover  ">
+                            </div>
+                            <div class="p-4 pt-2">
+                                <div class="mb-8">
+                                   
+                                    <a href="/blog/<%= blog._id %>" class="text-gray-900 font-bold text-lg mb-2 hover:text-indigo-600 inline-block"><%= blog.title %></a>
+                                    <p class="text-gray-700  text-md"><%= (blog.blogDesc).slice(0,280) %>...</p>
+                                </div>
+                                
+                                <div class="flex items-center">
+                                     <div class="text-sm">
+                                        <a href="#" class="text-gray-900 font-semibold leading-none hover:text-indigo-600"><%= blog.createdBy.fullname%></a>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <% }); %>
+                        <% } %>
+                    </div>
+                </div>
+              
+      </section>
+
+
+      <section id="writeblog" class="container mx-auto my-20 py-24 bg-gray-200 rounded-lg text-center">
+          <h3  class="text-5xl font-semibold">Ready to meet the community?</h3>
+          <p class="mt-8 text-xl font-light">Quis lectus nulla at volutpat diam ut. Enim lobortis scelerisque
+              fermentum dui faucibus in.
+          </p>
+          <p class="mt-8">
+            <% if(locals.user) { %>
+                <a href="/blog/createblog" type="button"
+                class=" py-3 px-6 bg-purple-600 hover:bg-teal-600 rounded text-white font-semibold">write A blog
+              </a>
+            <% }else { %>
+                <a href="/user/signup" type="button"
+                class=" py-3 px-6 bg-purple-600 hover:bg-teal-600 rounded text-white font-semibold">Write A blog
+              </a>
+            <% } %>
+          </p>
+      </section>
+
+
+  </main>
+
+
+  <footer class="container mx-auto py-16 px-3 mt-12 mb-8 text-gray-800">
+      <div class="flex -mx-3">
+          <div class="flex-1 px-3">
+              <h2 id="aboutus" class="text-lg font-semibold">About Us</h2>
+              <p class="mt-5">Welcome to Blogitech.io, your go-to hub for tech insights, trends, and tutorials! We’re a passionate team of tech enthusiasts and industry experts dedicated to keeping you updated on the ever-evolving world of technology.
+              </p>
+          </div>
+          <div class="flex-1 px-3">
+              <h2 class="text-lg font-semibold">Important Links</h2>
+              <ul class="mt-4 leading-loose">
+                  <li><a href="#">Terms &amp; Conditions</a></li>
+                  <li><a href="#">Privacy Policy</a></li>
+              </ul>
+          </div>
+          <div class="flex-1 px-3">
+              <h2 class="text-lg font-semibold">Social Media | Connect Us</h2>
+              <ul class="mt-4 leading-loose">
+                  <li><a href="https://www.linkedin.com/in/ashwani-yadav-a184b3253/">LinkedIn.com</a></li>
+                  <li><a href="https://github.com/Ashwan1-yadav">Github.com</a></li>
+
+              </ul>
+          </div>
+      </div>
+  </footer>
+
+
+</div>
+
