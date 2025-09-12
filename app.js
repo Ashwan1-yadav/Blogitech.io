@@ -25,6 +25,15 @@ app.use(checkForAuthenticationCookie("cookie"));
 app.use("/user", userRouter);
 app.use("/blog", blogRouter);
 
+const fs = require("fs");
+
+const uploadPath = path.join(process.cwd(), "public/images/uploads");
+
+// Make sure directory exists before writing
+if (!fs.existsSync(uploadPath)) {
+  fs.mkdirSync(uploadPath, { recursive: true });
+}
+
 app.get("/", async (req, res) => {
   const allblogs = await blogModel.find({});
   const blog = await blogModel.findById(req.params.id).populate("createdBy")
