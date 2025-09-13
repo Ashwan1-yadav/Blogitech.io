@@ -18,11 +18,11 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
-router.get("/createblog", (req, res) => {
+router.get("/createblog", checkForAuthenticationCookie(), (req, res) => {
   res.render("blogpost", { user: req.user });
 });
 
-router.get("/:id",async (req,res)=>{
+router.get("/:id", checkForAuthenticationCookie(), async (req, res) => {
   const blog = await blogModel.findById(req.params.id).populate("createdBy")
   const comments = await commentModel.find({ blogId : req.params.id}).populate("commentedBy")
   
@@ -34,7 +34,7 @@ router.get("/:id",async (req,res)=>{
   })
 })
 
-router.post("/comment/:blogId",async (req,res)=>{
+router.post("/comment/:blogId",checkForAuthenticationCookie(),async (req,res)=>{
    await commentModel.create({
       content : req.body.content,
       blogId : req.params.blogId,
@@ -43,7 +43,7 @@ router.post("/comment/:blogId",async (req,res)=>{
   res.redirect(`/blog/${req.params.blogId}`)
 })
 
-router.post("/createblog", upload.single("coverImageUrl"), async (req, res) => {
+router.post("/createblog", checkForAuthenticationCookie(), upload.single("coverImageUrl"), async (req, res) => {
   const { title, blogDesc } = req.body;
   const blog = await blogModel.create({
     title,

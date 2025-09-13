@@ -2,36 +2,42 @@ const { Router } = require("express");
 const router = Router();
 
 const userModel = require("../models/userModel");
-
+const { checkForAuthenticationCookie } = require("../middlewares/authentication");
 router.get("/signup", (req, res) => {
   res.render("register");
+});
+
+router.get("/", (req, res) => {
+  res.render("landingPage");
 });
 
 router.get("/signin", (req, res) => {
   res.render("login");
 });
 
-router.get("/logout", (req, res) => {
+router.get("/logout", checkForAuthenticationCookie(), (req, res) => {
   res.clearCookie("cookie").redirect("/");
 });
 
 router.post("/signup", async (req, res) => {
   const { fullname, email, password } = req.body;
   try {
-    const existingUser = await userModel.findOne({email})
+    const existingUser = await userModel.findOne({ email });
     if (existingUser) {
-      res.render("register",{error : "user already registered"})
+      return res.render("register", { error: "User already registered" });
     }
-    const user = new userModel({fullname,email,password})
+
+    const user = new userModel({ fullname, email, password });
     await user.save();
-    res.render("register",{ message : "User registered successfully please login"});
+
+    return res.render("register", { message: "User registered successfully, please login" });
   } catch (e) {
-    res.render("register",{
-      error : "All fields are required",
-    })
+    return res.render("register", {
+      error: "All fields are required",
+    });
   }
- 
 });
+
 
 router.post("/signin", async (req, res) => {
   const { email, password } = req.body;

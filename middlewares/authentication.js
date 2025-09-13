@@ -1,19 +1,23 @@
-const { validateToken } = require("../services/authServices")
+const { validateToken } = require("../services/authServices");
 
-function checkForAuthenticationCookie(cookie){
-   return (req,res,next) => {
-    const tokenCookieVal = req.cookies.cookie
+function checkForAuthenticationCookie() {
+  return (req, res, next) => {
+    const tokenCookieVal = req.cookies?.cookie;
+
     if (!tokenCookieVal) {
-       return next()
+      return res.render("login", { error: "Please login to continue !" });
     }
+
     try {
-        const payload = validateToken(tokenCookieVal)
-        req.user = payload
-    } catch (error) {res.render("login",{error : "Login In first"})}
-    return next()
-   }
+      const payload = validateToken(tokenCookieVal);
+      req.user = payload;
+      return next();
+    } catch (error) {
+      return res.render("login", { error: "Login first" });
+    }
+  };
 }
 
 module.exports = {
-    checkForAuthenticationCookie
-}
+  checkForAuthenticationCookie
+};
