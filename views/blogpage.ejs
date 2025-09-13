@@ -1,41 +1,489 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <%- include("./partials/header") %>
-    <title>Document</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog Title - Blogitech.io</title>
+    <link rel="shortcut icon" href="/images/Untitled-1.png" type="image/x-icon">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'primary': '#6366f1',
+                        'primary-dark': '#4f46e5',
+                        'secondary': '#ec4899',
+                        'accent': '#06b6d4',
+                        'dark': '#0f172a',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        .glass-effect { backdrop-filter: blur(20px); background: rgba(255, 255, 255, 0.9); }
+        .reading-width { max-width: 65ch; }
+        .gradient-text { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    </style>
 </head>
-<body>
-    <%- include("./partials/navbar") %>
-    <div class="container mt-4">
-        <h1><%= blog.title %></h1>
-        <img src="<%= blog.coverImageUrl %>" alt="" height="500px">
-        <p class="mt-4"><%= blog.blogDesc %></p>
-        <p>Posted By : </p>
-        <div class="container">
-            <img src="<%= blog.createdBy.profileImage%>" alt="" height="50px">
-        <%= blog.createdBy.fullname%>
-        </div>
-        <div class="container mt-4">
-            <h4>Comments : (<%= comments.length %>)</h4>
-            <% if(locals.user) {%>
-            <form action="/blog/comment/<%= blog._id %>" method="post">
-                <div class="container mb-3">
-                    <input type="text" name="content" class="form-control"
-                    placeholder="write your comment">
-                    <button type="submit" class="btn btn-sm btn-warning mt-2">Add Comment</button>
-                </div>
-            </form>
-            <div class="mt-3">
-                <% comments.forEach(comment => {%>
-                    <div class="container">
-                        <img src="" class="h-[20px]" alt=""><%= comment.commentedBy.fullname %>
-                        <p class="mx-5"><%= comment.content %></p>
+<body class="bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 min-h-screen">
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 glass-effect animate-fade-in">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center space-x-3 animate-scale-in">
+                    <div class="w-10 h-10 bg-gradient-to-r from-purple-500 to-blue-500 rounded-xl flex items-center justify-center animate-glow">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" class="w-6 h-6 text-white">
+                            <path fill="currentColor" d="M44,7L4,23l40,16l-7-16L44,7z M36,23H17l18-7l1,6V23z"></path>
+                            <path fill="currentColor"
+                                d="M40.212,10.669l-5.044,11.529L34.817,23l0.351,0.802l5.044,11.529L9.385,23L40.212,10.669 M44,7L4,23 l40,16l-7-16L44,7L44,7z">
+                            </path>
+                            <path fill="currentColor"
+                                d="M36,22l-1-6l-18,7l17,7l-2-5l-8-2h12V22z M27.661,21l5.771-2.244L33.806,21H27.661z">
+                            </path>
+                        </svg>
                     </div>
-                <% }); %>
+                    <img src="../public/images/Blogism.io.svg" alt="" class="h-6">
+                    <a class="text-2xl font-bold gradient-text cursor-pointer" href="/home">Blogitech.io</a>
+                </div>
+                
+                <div class="hidden md:flex space-x-8">
+                    <a href="/" class="text-gray-700 hover:text-purple-600 font-medium transition-all duration-300 hover:scale-105">Home</a>
+                    <a href="/" class="text-gray-700 hover:text-purple-600 font-medium transition-all duration-300 hover:scale-105">Latest Trends</a>
+                    <a href="/blog/createblog" class="text-gray-700 hover:text-purple-600 font-medium transition-all duration-300 hover:scale-105">Write A Blog</a>
+                </div>
+                
+                <div class="flex items-center space-x-4">
+                    <% if(locals.user){ %>
+                        <div class="flex items-center space-x-3">
+                            <div class="relative">
+                                <img class="w-10 h-10 object-cover rounded-full border-2 border-purple-500 ring-2 ring-purple-100" src="<%= locals.user.profileImage %>" alt="Profile">
+                                <div class="absolute -bottom-1 -right-1 w-4 h-4 bg-green-500 rounded-full border-2 border-white"></div>
+                            </div>
+                            <p class="font-semibold text-gray-700"><%= locals.user.fullname %></p>
+                            <a href="/user/logout" 
+                               class="px-6 py-2 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-full font-semibold hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl">
+                                Logout
+                            </a>
+                        </div>
+                    <% } else { %>
+                        <a href="/user/signup" 
+                           class="px-6 py-2 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-full font-semibold hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl">
+                            Sign Up
+                        </a>
+                        <a href="/user/signin" 
+                           class="px-6 py-2 border border-purple-600 text-purple-600 rounded-full font-semibold hover:bg-purple-600 hover:text-white transition-all duration-300">
+                            Login
+                        </a>
+                    <% } %>
+                </div>
             </div>
         </div>
-        <% } %>
-    </div>
-    <%- include("./partials/scripts") %>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-6 py-12">
+        <article class="max-w-4xl mx-auto">
+            <!-- Article Header -->
+            <header class="text-center mb-12">
+                <div class="mb-8">
+                    <h1 class="text-4xl lg:text-6xl font-bold text-gray-900 mb-6 leading-tight">
+                        The Future of Artificial Intelligence in Web Development
+                    </h1>
+                    <p class="text-xl text-gray-600 leading-relaxed max-w-3xl mx-auto">
+                        Exploring how AI is revolutionizing the way we build, design, and optimize web applications in 2024 and beyond.
+                    </p>
+                </div>
+
+                <!-- Author Info -->
+                <div class="flex items-center justify-center space-x-6 mb-8">
+                    <div class="flex items-center space-x-3">
+                        <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" 
+                             alt="Author" 
+                             class="w-12 h-12 rounded-full border-2 border-white shadow-md">
+                        <div class="text-left">
+                            <h3 class="font-semibold text-gray-900">Alex Thompson</h3>
+                            <p class="text-sm text-gray-600">Senior Developer</p>
+                        </div>
+                    </div>
+                    <div class="text-sm text-gray-500 space-y-1">
+                        <div class="flex items-center">
+                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                            </svg>
+                            March 15, 2024
+                        </div>
+                        <div class="flex items-center">
+                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                            8 min read
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tags -->
+                <div class="flex flex-wrap justify-center gap-2 mb-8">
+                    <span class="px-3 py-1 bg-primary/10 text-primary rounded-full text-sm font-medium">AI</span>
+                    <span class="px-3 py-1 bg-secondary/10 text-secondary rounded-full text-sm font-medium">Web Development</span>
+                    <span class="px-3 py-1 bg-accent/10 text-accent rounded-full text-sm font-medium">Machine Learning</span>
+                    <span class="px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm font-medium">Future Tech</span>
+                </div>
+            </header>
+
+            <!-- Hero Image -->
+            <div class="mb-12 relative">
+                <div class="aspect-video rounded-2xl overflow-hidden shadow-2xl">
+                    <img src="https://images.unsplash.com/photo-1555949963-aa79dcee981c?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" 
+                         alt="AI and Web Development" 
+                         class="w-full h-full object-cover">
+                </div>
+                <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent rounded-2xl"></div>
+            </div>
+
+            <!-- Article Content -->
+            <div class="bg-white/80 backdrop-blur-xl rounded-3xl shadow-xl border border-white/20 p-8 lg:p-12 mb-12">
+                <div class="reading-width mx-auto prose prose-lg prose-gray max-w-none">
+                    <p class="text-xl text-gray-700 mb-8 font-medium leading-relaxed">
+                        The landscape of web development is undergoing a revolutionary transformation, and at the heart of this change lies artificial intelligence. As we step further into 2024, the integration of AI into web development workflows is not just a trend—it's becoming an essential reality that's reshaping how we approach building digital experiences.
+                    </p>
+
+                    <h2 class="text-2xl font-bold text-gray-900 mb-6 mt-12">The Current State of AI in Web Development</h2>
+                    
+                    <p class="text-gray-700 mb-6 leading-relaxed">
+                        From automated code generation to intelligent design systems, AI is already making significant inroads into various aspects of web development. Tools like GitHub Copilot have demonstrated the potential of AI-assisted coding, while platforms like Figma are integrating machine learning to streamline design processes.
+                    </p>
+
+                    <p class="text-gray-700 mb-8 leading-relaxed">
+                        The most exciting developments are happening at the intersection of creativity and automation. AI is not replacing developers—it's augmenting their capabilities, allowing them to focus on higher-level problem-solving while automating repetitive tasks.
+                    </p>
+
+                    <h2 class="text-2xl font-bold text-gray-900 mb-6 mt-12">Key Areas of AI Integration</h2>
+
+                    <h3 class="text-xl font-semibold text-gray-900 mb-4 mt-8">1. Code Generation and Optimization</h3>
+                    <p class="text-gray-700 mb-6 leading-relaxed">
+                        AI-powered code generation has evolved beyond simple autocomplete. Modern AI assistants can understand context, generate entire functions, and even suggest architectural improvements. This technology is particularly powerful when working with repetitive patterns or when learning new frameworks.
+                    </p>
+
+                    <h3 class="text-xl font-semibold text-gray-900 mb-4 mt-8">2. User Experience Personalization</h3>
+                    <p class="text-gray-700 mb-6 leading-relaxed">
+                        Machine learning algorithms are enabling unprecedented levels of personalization in web applications. From dynamic content adjustment to predictive user interface modifications, AI is helping create more engaging and intuitive user experiences.
+                    </p>
+
+                    <h3 class="text-xl font-semibold text-gray-900 mb-4 mt-8">3. Performance Optimization</h3>
+                    <p class="text-gray-700 mb-8 leading-relaxed">
+                        AI-driven performance optimization tools can analyze user behavior patterns, predict traffic spikes, and automatically adjust resource allocation. This level of intelligent optimization was previously only available to companies with dedicated performance engineering teams.
+                    </p>
+
+                    <h2 class="text-2xl font-bold text-gray-900 mb-6 mt-12">Looking Ahead: What's Next?</h2>
+                    
+                    <p class="text-gray-700 mb-6 leading-relaxed">
+                        The future promises even more exciting developments. We're likely to see AI systems that can understand project requirements in natural language and generate complete application scaffolds, intelligent debugging assistants that can identify and fix issues autonomously, and design systems that can create pixel-perfect implementations from rough sketches.
+                    </p>
+
+                    <p class="text-gray-700 mb-8 leading-relaxed">
+                        However, with these advances come important considerations around ethics, job displacement, and the need for developers to continuously adapt their skills. The most successful developers will be those who learn to work alongside AI, leveraging its capabilities while maintaining their creative and strategic thinking abilities.
+                    </p>
+
+                    <blockquote class="border-l-4 border-primary pl-6 py-4 my-8 bg-primary/5 rounded-r-lg">
+                        <p class="text-lg text-gray-700 italic mb-2">
+                            "AI won't replace developers, but developers who use AI will replace those who don't."
+                        </p>
+                        <cite class="text-sm text-gray-600">— Industry Expert</cite>
+                    </blockquote>
+
+                    <h2 class="text-2xl font-bold text-gray-900 mb-6 mt-12">Conclusion</h2>
+                    
+                    <p class="text-gray-700 mb-6 leading-relaxed">
+                        The integration of AI into web development is not a distant future—it's happening now. Developers who embrace these tools and learn to work effectively with AI will find themselves more productive, creative, and valuable in the evolving tech landscape.
+                    </p>
+
+                    <p class="text-gray-700 mb-8 leading-relaxed">
+                        As we continue to explore this exciting frontier, one thing is clear: the future of web development will be defined by the synergy between human creativity and artificial intelligence. The question isn't whether AI will transform web development, but how quickly we can adapt to harness its full potential.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Engagement Section -->
+            <div class="bg-white/80 backdrop-blur-xl rounded-2xl shadow-lg border border-white/20 p-6 mb-8">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-6">
+                        <button class="flex items-center space-x-2 text-gray-600 hover:text-red-500 transition-colors">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+                            </svg>
+                            <span class="font-medium">42</span>
+                        </button>
+                        <button class="flex items-center space-x-2 text-gray-600 hover:text-primary transition-colors">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+                            </svg>
+                            <span class="font-medium">12</span>
+                        </button>
+                    </div>
+                    <div class="flex items-center space-x-4">
+                        <button class="p-2 text-gray-600 hover:text-primary transition-colors">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"/>
+                            </svg>
+                        </button>
+                        <button class="p-2 text-gray-600 hover:text-primary transition-colors">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.367 2.684 3 3 0 00-5.367-2.684z"/>
+                            </svg>
+                        </button>
+                        <button class="px-4 py-2 bg-gradient-to-r from-primary to-primary-dark text-white rounded-full hover:shadow-lg transition-all font-medium">
+                            Follow Author
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Comments Section -->
+            <div class="bg-white/80 backdrop-blur-xl rounded-2xl shadow-lg border border-white/20 p-8">
+                <h3 class="text-2xl font-bold text-gray-900 mb-6 flex items-center">
+                    <svg class="w-6 h-6 mr-3 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+                    </svg>
+                    Comments (12)
+                </h3>
+
+                <!-- Comment Form -->
+                <form action="/blog/comment/123" method="post" class="mb-8">
+                    <div class="flex space-x-4">
+                        <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" 
+                             alt="Your avatar" 
+                             class="w-10 h-10 rounded-full flex-shrink-0">
+                        <div class="flex-1">
+                            <textarea 
+                                name="content"
+                                rows="3"
+                                class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all bg-gray-50/50 hover:bg-white focus:bg-white placeholder-gray-400 resize-none"
+                                placeholder="Share your thoughts about this article..."
+                                required
+                            ></textarea>
+                            <div class="flex justify-between items-center mt-3">
+                                <p class="text-sm text-gray-500">Be respectful and constructive in your comments</p>
+                                <button 
+                                    type="submit"
+                                    class="px-6 py-2 bg-gradient-to-r from-primary to-primary-dark text-white rounded-full hover:shadow-lg transition-all font-medium"
+                                >
+                                    Post Comment
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+                <!-- Comments List -->
+                <div class="space-y-6">
+                    <!-- Sample Comment -->
+                    <div class="flex space-x-4">
+                        <img src="https://images.unsplash.com/photo-1494790108755-2616b612b786?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" 
+                             alt="Commenter" 
+                             class="w-10 h-10 rounded-full flex-shrink-0">
+                        <div class="flex-1">
+                            <div class="bg-gray-50 rounded-2xl p-4">
+                                <div class="flex items-center space-x-3 mb-2">
+                                    <h4 class="font-semibold text-gray-900">Sarah Johnson</h4>
+                                    <span class="text-sm text-gray-500">2 hours ago</span>
+                                </div>
+                                <p class="text-gray-700 leading-relaxed">
+                                    This is a fantastic overview of AI in web development! I've been using GitHub Copilot for the past few months and it's incredible how much it speeds up the coding process. The point about AI augmenting rather than replacing developers is spot on.
+                                </p>
+                            </div>
+                            <div class="flex items-center space-x-4 mt-3">
+                                <button class="text-sm text-gray-600 hover:text-primary transition-colors font-medium">Reply</button>
+                                <button class="text-sm text-gray-600 hover:text-red-500 transition-colors flex items-center">
+                                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+                                    </svg>
+                                    5
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Another Comment -->
+                    <div class="flex space-x-4">
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" 
+                             alt="Commenter" 
+                             class="w-10 h-10 rounded-full flex-shrink-0">
+                        <div class="flex-1">
+                            <div class="bg-gray-50 rounded-2xl p-4">
+                                <div class="flex items-center space-x-3 mb-2">
+                                    <h4 class="font-semibold text-gray-900">Mike Chen</h4>
+                                    <span class="text-sm text-gray-500">4 hours ago</span>
+                                </div>
+                                <p class="text-gray-700 leading-relaxed">
+                                    Great article! I'm curious about the ethical implications you mentioned. How do you think we should balance AI assistance with maintaining developer skills and creativity?
+                                </p>
+                            </div>
+                            <div class="flex items-center space-x-4 mt-3">
+                                <button class="text-sm text-gray-600 hover:text-primary transition-colors font-medium">Reply</button>
+                                <button class="text-sm text-gray-600 hover:text-red-500 transition-colors flex items-center">
+                                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+                                    </svg>
+                                    8
+                                </button>
+                            </div>
+
+                            <!-- Reply -->
+                            <div class="ml-8 mt-4 flex space-x-4">
+                                <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" 
+                                     alt="Author" 
+                                     class="w-8 h-8 rounded-full flex-shrink-0">
+                                <div class="flex-1">
+                                    <div class="bg-primary/5 border border-primary/10 rounded-2xl p-4">
+                                        <div class="flex items-center space-x-3 mb-2">
+                                            <h4 class="font-semibold text-gray-900">Alex Thompson</h4>
+                                            <span class="px-2 py-1 bg-primary text-white text-xs rounded-full font-medium">Author</span>
+                                            <span class="text-sm text-gray-500">1 hour ago</span>
+                                        </div>
+                                        <p class="text-gray-700 leading-relaxed">
+                                            That's a great question, Mike! I think the key is using AI as a tool to handle routine tasks while focusing our human creativity on problem-solving and architectural decisions. The goal should be to elevate our work, not replace our thinking.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Load More Comments -->
+                    <div class="text-center pt-4">
+                        <button class="px-6 py-3 border-2 border-gray-200 text-gray-700 rounded-full hover:border-primary hover:text-primary transition-all font-medium">
+                            Load More Comments
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </article>
+
+        <!-- Related Articles -->
+        <section class="max-w-4xl mx-auto mt-16">
+            <h2 class="text-3xl font-bold text-gray-900 mb-8">Related Articles</h2>
+            <div class="grid md:grid-cols-2 gap-8">
+                <article class="bg-white/80 backdrop-blur-xl rounded-2xl shadow-lg border border-white/20 overflow-hidden hover:shadow-xl transition-shadow">
+                    <div class="aspect-video overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1485827404703-89b55fcc595e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                             alt="Related article" 
+                             class="w-full h-full object-cover hover:scale-105 transition-transform duration-300">
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center space-x-3 mb-3">
+                            <img src="https://images.unsplash.com/photo-1494790108755-2616b612b786?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" 
+                                 alt="Author" 
+                                 class="w-8 h-8 rounded-full">
+                            <span class="text-sm text-gray-600">Jane Smith • 5 min read</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-3 hover:text-primary transition-colors cursor-pointer">
+                            Machine Learning for Personalized User Experiences
+                        </h3>
+                        <p class="text-gray-600 line-clamp-3">
+                            Discover how machine learning algorithms are enabling unprecedented levels of personalization in web applications...
+                        </p>
+                    </div>
+                </article>
+
+                <article class="bg-white/80 backdrop-blur-xl rounded-2xl shadow-lg border border-white/20 overflow-hidden hover:shadow-xl transition-shadow">
+                    <div class="aspect-video overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1518709268805-4e9042af2176?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                             alt="Related article" 
+                             class="w-full h-full object-cover hover:scale-105 transition-transform duration-300">
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center space-x-3 mb-3">
+                            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" 
+                                 alt="Author" 
+                                 class="w-8 h-8 rounded-full">
+                            <span class="text-sm text-gray-600">David Wilson • 7 min read</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-3 hover:text-primary transition-colors cursor-pointer">
+                            Building Scalable Applications with Modern Architecture
+                        </h3>
+                        <p class="text-gray-600 line-clamp-3">
+                            Learn about the latest architectural patterns and best practices for building scalable, maintainable web applications...
+                        </p>
+                    </div>
+                </article>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // Like button functionality
+        document.querySelectorAll('button').forEach(button => {
+            if (button.querySelector('svg') && button.textContent.includes('42')) {
+                button.addEventListener('click', function() {
+                    const heart = this.querySelector('svg');
+                    const count = this.querySelector('span');
+                    
+                    if (heart.getAttribute('fill') === 'currentColor') {
+                        heart.setAttribute('fill', 'none');
+                        this.classList.remove('text-red-500');
+                        this.classList.add('text-gray-600');
+                        count.textContent = parseInt(count.textContent) - 1;
+                    } else {
+                        heart.setAttribute('fill', 'currentColor');
+                        this.classList.remove('text-gray-600');
+                        this.classList.add('text-red-500');
+                        count.textContent = parseInt(count.textContent) + 1;
+                    }
+                });
+            }
+        });
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Reading progress indicator
+        window.addEventListener('scroll', () => {
+            const article = document.querySelector('article');
+            const scrollTop = window.pageYOffset;
+            const docHeight = document.body.offsetHeight;
+            const winHeight = window.innerHeight;
+            const scrollPercent = scrollTop / (docHeight - winHeight);
+            
+            // You can add a progress bar here if needed
+        });
+
+        // Share functionality
+        document.querySelectorAll('button').forEach(button => {
+            const svg = button.querySelector('svg');
+            if (svg && svg.querySelector('path[d*="M8.684"]')) {
+                button.addEventListener('click', async () => {
+                    if (navigator.share) {
+                        try {
+                            await navigator.share({
+                                title: document.title,
+                                url: window.location.href
+                            });
+                        } catch (err) {
+                            console.log('Error sharing:', err);
+                        }
+                    } else {
+                        // Fallback: copy to clipboard
+                        navigator.clipboard.writeText(window.location.href);
+                        alert('Link copied to clipboard!');
+                    }
+                });
+            }
+        });
+    </script>
 </body>
 </html>

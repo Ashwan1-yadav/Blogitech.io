@@ -1,298 +1,390 @@
-<%- include("./partials/header") %>
-
-<div class="bg-grey-200 overflow-x-hidden scrollbar-hide">
-  <header class="sticky top-0 bg-indigo-100 shadow-md">
-      <div class="container flex flex-col sm:flex-row justify-between items-center mx-auto py-2 px-4">
-          <div class="flex items-center text-2xl">
-              <div class="w-12 mr-3">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
-                      <path fill="#BEE3F8" d="M44,7L4,23l40,16l-7-16L44,7z M36,23H17l18-7l1,6V23z"></path>
-                      <path fill="#3182CE"
-                          d="M40.212,10.669l-5.044,11.529L34.817,23l0.351,0.802l5.044,11.529L9.385,23L40.212,10.669 M44,7L4,23 l40,16l-7-16L44,7L44,7z">
-                      </path>
-                      <path fill="#3182CE"
-                          d="M36,22l-1-6l-18,7l17,7l-2-5l-8-2h12V22z M27.661,21l5.771-2.244L33.806,21H27.661z">
-                      </path>
-                  </svg>
-              </div>
-              <img src="../public/images/Blogism.io.svg" alt="">
-              <a class="font-bold text-3xl cursor-pointer" href="/home">Blogitech.io</a>
-          </div>
-          <div class="flex mt-2 sm:mt-0 text-lg font-semibold">
-              <a class="px-4" href="#home">Home</a>
-              <a class="px-4" href="#features">Latest trends</a>
-              <% if(locals.user){ %>
-                <a class="px-4" href="/blog/createblog">Write A Blog</a>
-                <% } else { %>
-                    <a class="px-4" href="#writeblog">Write A Blog</a>
-                    <% }%>
-              
-              <a class="px-4" href="#blogs">Blogs</a>
-              <a class="px-4" href="#aboutus">About Us</a>
-          </div>
-          <div class="hidden md:block">
-            <% if(locals.user){ %>
-                <div class="flex justify-center ">
-                    <img class="mt-2 h-[40px] object-cover border-1 rounded-full border-indigo-500" src="<%= locals.user.profileImage %>" alt="">
-                    <p class="mt-3 mx-3 font-semibold"><%= locals.user.fullname %></p>
-                    <a href="/user/logout" type="button"
-                    class=" mx-3 mt-[9px] py-2 px-4 shadow-md text-sm font-semibold bg-purple-500 hover:bg-teal-600 rounded text-black ">Logout
-                </a>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blogitech.io - Modern Tech Blog</title>
+    <link rel="shortcut icon" href="/images/Untitled-1.png" type="image/x-icon">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'primary': '#6366f1',
+                        'primary-dark': '#4f46e5',
+                        'secondary': '#ec4899',
+                        'accent': '#06b6d4',
+                        'dark': '#0f172a',
+                        'dark-light': '#1e293b',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        .gradient-bg { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+        .glass-effect { backdrop-filter: blur(20px); background: rgba(255, 255, 255, 0.1); }
+        .hover-lift { transition: transform 0.3s ease, box-shadow 0.3s ease; }
+        .hover-lift:hover { transform: translateY(-8px); box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
+        .animate-float { animation: float 6s ease-in-out infinite; }
+        @keyframes float { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-20px); } }
+    </style>
+</head>
+<body class="bg-white text-gray-900 overflow-x-hidden">
+    <!-- Modern Header -->
+    <nav class="fixed top-0 w-full z-50 glass-effect animate-fade-in">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center space-x-3 animate-scale-in">
+                    <div class="w-10 h-10 bg-gradient-to-r from-purple-500 to-blue-500 rounded-xl flex items-center justify-center animate-glow">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" class="w-6 h-6 text-white">
+                            <path fill="currentColor" d="M44,7L4,23l40,16l-7-16L44,7z M36,23H17l18-7l1,6V23z"></path>
+                            <path fill="currentColor"
+                                d="M40.212,10.669l-5.044,11.529L34.817,23l0.351,0.802l5.044,11.529L9.385,23L40.212,10.669 M44,7L4,23 l40,16l-7-16L44,7L44,7z">
+                            </path>
+                            <path fill="currentColor"
+                                d="M36,22l-1-6l-18,7l17,7l-2-5l-8-2h12V22z M27.661,21l5.771-2.244L33.806,21H27.661z">
+                            </path>
+                        </svg>
+                    </div>
+                    <img src="../public/images/Blogism.io.svg" alt="" class="h-6">
+                    <a class="text-2xl font-bold gradient-text cursor-pointer" href="/home">Blogitech.io</a>
                 </div>
-            <% } else { %>
-                <a href="/user/signup" type="button"
-                class=" mx-3 py-2 px-4 shadow-md text-sm font-semibold bg-purple-600 hover:bg-teal-600 rounded text-white ">Sign Up
-            </a>
-                <a href="/user/signin" type="button"
-                    class=" py-2 px-4 shadow-md text-sm font-semibold bg-purple-600 hover:bg-teal-600 rounded text-white ">Login
-                </a>
-            <% }%>
-            
-              
-          </div>
-          
-           
-        
-      </div>
-  </header>
-
-  <main id="home" class="text-gray-900">
-     <section class="pt-20 md:pt-40">
-          <div class="container mx-auto px-8 lg:flex">
-              <div class="text-center lg:text-left lg:w-1/2">
-                  <h1 class="text-4xl lg:text-5xl xl:text-6xl font-bold leading-none">Your Guide to Tomorrow’s Tech World</h1>
-                  <p class="text-xl lg:text-2xl mt-6 font-light">go-to source for the latest in technology, innovation, and digital trends. We cover everything from breakthrough gadgets and software reviews to deep dives into AI, cybersecurity, and the future of tech.
-                  </p>
-                  <p class="mt-8 md:mt-12">
-                    <% if(locals.user) { %>
-                        <a href="/blog/createblog" type="button"
-                        class=" py-3 px-6 bg-purple-600 hover:bg-teal-600 rounded text-white font-semibold">Get Started
-                      </a>
-                    <% }else { %>
-                        <a href="/user/signup" type="button"
-                        class=" py-3 px-6 bg-purple-600 hover:bg-teal-600 rounded text-white font-semibold">Get Started
-                      </a>
-                    <% } %>
-                      
-                  </p>
-                  
-              </div>
-               
-              <div class="lg:w-1/2">
-                  <img src="https://media.istockphoto.com/id/1480027960/vector/businessman-using-laptop-hotline-operator-help-clients-to-solve-problems-customer-service.jpg?s=612x612&w=0&k=20&c=jfrcv1EuD8PLAK0gMLIObd4fV0TjmFVrS4cZEHJvrS4=" alt="">
-              </div>
-          </div>
-      </section>
-
-     
-      <section id="features" class=" mt-[-50px] py-20 lg:pb-40 lg:pt-48">
-          <div class="container mx-auto text-center">
-              <h2 class="text-3xl lg:text-5xl font-semibold">Latest From Tech</h2>
-              <div class="flex flex-col sm:flex-row sm:-mx-3 mt-12">
-                  <div class="flex-1 px-3">
-                      <div class="p-12 rounded-lg border border-solid border-gray-200 mb-8"
-                          style="box-shadow:0 10px 28px rgba(0,0,0,.08)">
-                          <p class="font-semibold text-xl">Quantum Computing
-
-                          </p>
-                          <p class="mt-4">Quantum computers leverage the properties of quantum mechanics to process information exponentially faster than classical computers for specific tasks...
-                          </p>
-                      </div>
-                  </div>
-                  <div class="flex-1 px-3">
-                      <div class="p-12 rounded-lg border border-solid border-gray-200 mb-8"
-                          style="box-shadow:0 10px 28px rgba(0,0,0,.08)">
-                          <p class="font-semibold text-xl">5G Expansion
-                          </p>
-                          <p class="mt-4">The fifth generation of mobile networks, 5G, promises significantly faster data download and upload speeds, wider coverage, and more stable connections. The expansion of 5G is facilitating transformative technologies...
-                          </p>
-                      </div>
-                  </div>
-                  <div class="flex-1 px-3">
-                      <div class="p-12 rounded-lg border border-solid border-gray-200 mb-8"
-                          style="box-shadow:0 10px 28px rgba(0,0,0,.08)">
-                          <p class="font-semibold text-xl">Virtual Reality (VR) 2.0
-
-                          </p>
-                          <p class="mt-4">Enhanced VR technologies are offering more immersive and realistic experiences. With improvements in display resolutions, motion tracking, and interactive ...
-                          </p>
-                      </div>
-                  </div>
-              </div>
-          </div>
-      </section>
-
-
-
-      <section id="services" class="py-20">
-          <div class="container mx-auto px-16 items-center flex flex-col lg:flex-row mt-[-100px]">
-              <div class="lg:w-1/2">
-                  <div class="lg:pr-32 xl:pr-48">
-                      <h3 class="text-5xl font-semibold leading-tight">Where Curiosity Meets Tech Community</h3>
-                      <p class="mt-8 text-xl font-light leading-relaxed">Our team of enthusiastic marketers
-                          will analyse and evaluate how your company stacks against the closest competitors
-                      </p>
-                  </div>
-              </div>
-              <div class="mt-10 lg:mt-0 w-full lg:w-1/2 undefined">
-                  <img class="rounded-lg shadow-md" src="https://clipart-library.com/2023/297-2978988_blogging-and-content-the-transparent-blog-png-png.png" alt="">
-              </div>
-          </div>
-      </section>
-
-
-
-      <section class="py-20">
-          <div class="container mx-auto px-16 items-center flex flex-col lg:flex-row">
-            <div class="mt-10 lg:mt-0 w-full lg:w-1/2 order-last lg:order-first">
-                  <img src="https://img.freepik.com/free-vector/blog-post-concept-illustration_114360-26355.jpg" alt="">
-                  </img>
-              </div>
-              <div class="lg:w-1/2">
-                  <div class="lg:pl-32 xl:pl-48">
-                      <h3 class="text-5xl font-semibold leading-tight">For the Love of All Things Digital
-                          Steps</h3>
-                      <p class="mt-8 text-xl font-light leading-relaxed">Once the market analysis process is
-                          completed our staff will search for opportunities that are in reach
-                      </p>
-                  </div>
-              </div>
-              
-          </div>
-      </section>
-
-
-      <section class="py-20">
-          <div class="container mx-auto px-16 items-center flex flex-col lg:flex-row">
-              <div class="lg:w-1/2">
-                  <div class="lg:pr-32 xl:pr-48">
-                      <h3 class="text-5xl font-semibold leading-tight">Your Front-Row Seat to Tomorrow
-                      </h3>
-                      <p class="mt-8 text-xl font-light leading-relaxed">With all the information in place you
-                          will be presented with an action plan that your company needs to follow
-                      </p>
-                  </div>
-              </div>
-              <div class="mt-10 lg:mt-0 w-full lg:w-1/2 undefined">
-                  <img src="https://img.freepik.com/free-vector/blogging-illustration-concept_114360-851.jpg" height="200px" alt="">
-              </div>
-          </div>
-      </section>
-
-
-      <section id="stats" class="py-20 lg:pt-32">
-          <div class="container mx-auto text-center">
-              <p class="uppercase tracking-wider text-3xl font-semibold text-gray-600">Our users from Worldwide</p>
-              <div class="flex flex-col sm:flex-row mt-8 lg:px-24">
-                  <div class="w-full sm:w-1/3">
-                      <p class="text-4xl lg:text-6xl font-semibold text-teal-500">+123
-                      </p>
-                      <p class="font-semibold mb-6">India
-                      </p>
-                  </div>
-                  <div class="w-full sm:w-1/3">
-                      <p class="text-4xl lg:text-6xl font-semibold text-teal-500">+89
-                      </p>
-                      <p class="font-semibold mb-6">USA
-                      </p>
-                  </div>
-                  <div class="w-full sm:w-1/3">
-                      <p class="text-4xl lg:text-6xl font-semibold text-teal-500">+45
-                      </p>
-                      <p class="font-semibold mb-6">Japan
-                      </p>
-                  </div>
-              </div>
-          </div>
-      </section>
-
-
-
-      <section id="blogs" class="py-20 lg:py-40">
-          <div  class="container mx-auto ">
-              <p class="font-semibold text-5xl mb-8 text-gray-600 text-center">Blogs From Users
-              </p>
-              
-              
-                  <div class="max-w-screen-xl mx-auto p-5 sm:p-10 md:p-16">
-                    <div class="grid grid-cols-1 md:grid-cols-3 sm:grid-cols-2 gap-10">
-                      <% if(blogs)  { %>
-                        <% blogs.forEach(blog => { %>
-                        <div
-                            class="border-r border-b border-l border-gray-400 lg:border-t lg:border-gray-400 bg-white rounded-b lg:rounded-b-none lg:rounded-r flex flex-col justify-between leading-normal shadow-md">
-                            <div class="h-[200px] overflow-hidden object-cover">
-                              <img  src="<%= blog.coverImageUrl %>" class="w-full mb-3 object-cover  ">
+                
+                <div class="hidden md:flex space-x-8">
+                    <a href="/" class="text-gray-700 hover:text-purple-600 font-medium transition-all duration-300 hover:scale-105">Home</a>
+                    <a href="/" class="text-gray-700 hover:text-purple-600 font-medium transition-all duration-300 hover:scale-105">Latest Trends</a>
+                    <a href="/blog/createblog" class="text-gray-700 hover:text-purple-600 font-medium transition-all duration-300 hover:scale-105">Write A Blog</a>
+                </div>
+                
+                <div class="flex items-center space-x-4">
+                    <% if(locals.user){ %>
+                        <div class="flex items-center space-x-3">
+                            <div class="relative">
+                                <img class="w-10 h-10 object-cover rounded-full border-2 border-purple-500 ring-2 ring-purple-100" src="<%= locals.user.profileImage %>" alt="Profile">
+                                <div class="absolute -bottom-1 -right-1 w-4 h-4 bg-green-500 rounded-full border-2 border-white"></div>
                             </div>
-                            <div class="p-4 pt-2">
-                                <div class="mb-8">
-                                   
-                                    <a href="/blog/<%= blog._id %>" class="text-gray-900 font-bold text-lg mb-2 hover:text-indigo-600 inline-block"><%= blog.title %></a>
-                                    <p class="text-gray-700  text-md"><%= (blog.blogDesc).slice(0,280) %>...</p>
-                                </div>
-                                
-                                <div class="flex items-center">
-                                     <div class="text-sm">
-                                        <a href="#" class="text-gray-900 font-semibold leading-none hover:text-indigo-600"><%= blog.createdBy.fullname%></a>
-                                        
-                                    </div>
-                                </div>
-                            </div>
+                            <p class="font-semibold text-gray-700"><%= locals.user.fullname %></p>
+                            <a href="/user/logout" 
+                               class="px-6 py-2 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-full font-semibold hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl">
+                                Logout
+                            </a>
                         </div>
-                        <% }); %>
-                        <% } %>
+                    <% } else { %>
+                        <a href="/user/signup" 
+                           class="px-6 py-2 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-full font-semibold hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl">
+                            Sign Up
+                        </a>
+                        <a href="/user/signin" 
+                           class="px-6 py-2 border border-purple-600 text-purple-600 rounded-full font-semibold hover:bg-purple-600 hover:text-white transition-all duration-300">
+                            Login
+                        </a>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="min-h-screen flex items-center relative overflow-hidden">
+        <div class="absolute inset-0 gradient-bg opacity-5"></div>
+        <div class="container mx-auto px-6 py-32 relative z-10">
+            <div class="flex flex-col lg:flex-row items-center">
+                <div class="lg:w-1/2 lg:pr-16">
+                    <div class="animate-float">
+                        <h1 class="text-5xl lg:text-7xl font-bold leading-tight mb-8">
+                            Your Gateway to
+                            <span class="bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
+                                Tomorrow's Tech
+                            </span>
+                        </h1>
+                    </div>
+                    <p class="text-xl text-gray-600 mb-10 leading-relaxed">
+                        Discover cutting-edge technology insights, trends, and innovations that shape our digital future. 
+                        Join our community of tech enthusiasts and stay ahead of the curve.
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <a href="/blog/createblog" class="px-8 py-4 bg-gradient-to-r from-primary to-primary-dark text-white rounded-full hover:shadow-xl hover:scale-105 transition-all font-semibold text-center">
+                            Start Writing
+                        </a>
+                        <a href="#blogs" class="px-8 py-4 border-2 border-primary text-primary rounded-full hover:bg-primary hover:text-white transition-all font-semibold text-center">
+                            Explore Blogs
+                        </a>
                     </div>
                 </div>
-              
-      </section>
+                <div class="lg:w-1/2 mt-16 lg:mt-0">
+                    <div class="relative">
+                        <div class="absolute -inset-4 bg-gradient-to-r from-primary to-secondary rounded-3xl opacity-20 blur-lg"></div>
+                        <img src="https://images.unsplash.com/photo-1551434678-e076c223a692?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" 
+                             alt="Modern Tech Workspace" 
+                             class="relative rounded-3xl shadow-2xl hover-lift">
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Floating Elements -->
+        <div class="absolute top-1/4 left-1/4 w-4 h-4 bg-primary rounded-full opacity-30 animate-pulse"></div>
+        <div class="absolute top-3/4 right-1/4 w-6 h-6 bg-secondary rounded-full opacity-20 animate-bounce"></div>
+        <div class="absolute bottom-1/4 left-1/3 w-3 h-3 bg-accent rounded-full opacity-40 animate-ping"></div>
+    </section>
 
+    <!-- Features Section -->
+    <section id="features" class="py-24 bg-gray-50">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-20">
+                <h2 class="text-4xl lg:text-5xl font-bold mb-6">Latest Tech Trends</h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                    Stay updated with the most innovative technologies that are reshaping our world
+                </p>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-white rounded-2xl p-8 shadow-sm hover-lift border border-gray-100">
+                    <div class="w-16 h-16 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-2xl flex items-center justify-center mb-6">
+                        <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4">Quantum Computing</h3>
+                    <p class="text-gray-600 leading-relaxed">
+                        Revolutionary quantum processors that promise to solve complex problems exponentially faster than classical computers.
+                    </p>
+                </div>
 
-      <section id="writeblog" class="container mx-auto my-20 py-24 bg-gray-200 rounded-lg text-center">
-          <h3  class="text-5xl font-semibold">Ready to meet the community?</h3>
-          <p class="mt-8 text-xl font-light">Quis lectus nulla at volutpat diam ut. Enim lobortis scelerisque
-              fermentum dui faucibus in.
-          </p>
-          <p class="mt-8">
-            <% if(locals.user) { %>
-                <a href="/blog/createblog" type="button"
-                class=" py-3 px-6 bg-purple-600 hover:bg-teal-600 rounded text-white font-semibold">write A blog
-              </a>
-            <% }else { %>
-                <a href="/user/signup" type="button"
-                class=" py-3 px-6 bg-purple-600 hover:bg-teal-600 rounded text-white font-semibold">Write A blog
-              </a>
-            <% } %>
-          </p>
-      </section>
+                <div class="bg-white rounded-2xl p-8 shadow-sm hover-lift border border-gray-100">
+                    <div class="w-16 h-16 bg-gradient-to-br from-purple-500 to-pink-500 rounded-2xl flex items-center justify-center mb-6">
+                        <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M12.395 2.553a1 1 0 00-1.45-.385c-.345.23-.614.558-.822.88-.214.33-.403.713-.57 1.116-.334.804-.614 1.768-.84 2.734a31.365 31.365 0 00-.613 3.58 2.64 2.64 0 01-.945-1.067c-.328-.68-.398-1.534-.398-2.654A1 1 0 005.05 6.05 6.981 6.981 0 003 11a7 7 0 1011.95-4.95c-.592-.591-.98-.985-1.348-1.467-.363-.476-.724-1.063-1.207-2.03zM12.12 15.12A3 3 0 017 13s.879.5 2.5.5c0-1 .5-4 1.25-4.5.5 1 .786 1.293 1.371 1.879A2.99 2.99 0 0113 13a2.99 2.99 0 01-.879 2.121z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4">5G Revolution</h3>
+                    <p class="text-gray-600 leading-relaxed">
+                        Ultra-fast networks enabling IoT, autonomous vehicles, and immersive AR/VR experiences with minimal latency.
+                    </p>
+                </div>
 
+                <div class="bg-white rounded-2xl p-8 shadow-sm hover-lift border border-gray-100">
+                    <div class="w-16 h-16 bg-gradient-to-br from-green-500 to-teal-500 rounded-2xl flex items-center justify-center mb-6">
+                        <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M4 3a2 2 0 100 4h12a2 2 0 100-4H4zM3 8a1 1 0 000 2v5a2 2 0 002 2h6a2 2 0 002-2v-5a1 1 0 100-2H3zm8 7a1 1 0 100-2 1 1 0 000 2z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4">AI Integration</h3>
+                    <p class="text-gray-600 leading-relaxed">
+                        Artificial Intelligence transforming industries with machine learning, natural language processing, and automation.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
 
-  </main>
+    <!-- Blog Preview Section -->
+    <section id="blogs" class="py-24">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-20">
+                <h2 class="text-4xl lg:text-5xl font-bold mb-6">Featured Articles</h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                    Discover insights from our community of tech writers and industry experts
+                </p>
+            </div>
 
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Sample Blog Cards -->
+                <article class="group cursor-pointer">
+                    <div class="bg-white rounded-2xl overflow-hidden shadow-sm hover-lift border border-gray-100">
+                        <div class="h-48 bg-gradient-to-br from-purple-400 to-blue-500 relative overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1518709268805-4e9042af2176?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                                 alt="Tech Article" 
+                                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
+                        </div>
+                        <div class="p-6">
+                            <div class="flex items-center space-x-3 mb-4">
+                                <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" 
+                                     alt="Author" 
+                                     class="w-8 h-8 rounded-full">
+                                <span class="text-sm text-gray-600">John Doe</span>
+                                <span class="text-sm text-gray-400">•</span>
+                                <span class="text-sm text-gray-400">5 min read</span>
+                            </div>
+                            <h3 class="text-xl font-bold mb-3 group-hover:text-primary transition-colors">
+                                The Future of Web Development
+                            </h3>
+                            <p class="text-gray-600 line-clamp-3">
+                                Exploring the latest trends in web development including AI-powered tools, serverless architecture, and the rise of edge computing.
+                            </p>
+                        </div>
+                    </div>
+                </article>
 
-  <footer class="container mx-auto py-16 px-3 mt-12 mb-8 text-gray-800">
-      <div class="flex -mx-3">
-          <div class="flex-1 px-3">
-              <h2 id="aboutus" class="text-lg font-semibold">About Us</h2>
-              <p class="mt-5">Welcome to Blogitech.io, your go-to hub for tech insights, trends, and tutorials! We’re a passionate team of tech enthusiasts and industry experts dedicated to keeping you updated on the ever-evolving world of technology.
-              </p>
-          </div>
-          <div class="flex-1 px-3">
-              <h2 class="text-lg font-semibold">Important Links</h2>
-              <ul class="mt-4 leading-loose">
-                  <li><a href="#">Terms &amp; Conditions</a></li>
-                  <li><a href="#">Privacy Policy</a></li>
-              </ul>
-          </div>
-          <div class="flex-1 px-3">
-              <h2 class="text-lg font-semibold">Social Media | Connect Us</h2>
-              <ul class="mt-4 leading-loose">
-                  <li><a href="https://www.linkedin.com/in/ashwani-yadav-a184b3253/">LinkedIn.com</a></li>
-                  <li><a href="https://github.com/Ashwan1-yadav">Github.com</a></li>
+                <article class="group cursor-pointer">
+                    <div class="bg-white rounded-2xl overflow-hidden shadow-sm hover-lift border border-gray-100">
+                        <div class="h-48 bg-gradient-to-br from-green-400 to-blue-500 relative overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1485827404703-89b55fcc595e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                                 alt="Tech Article" 
+                                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
+                        </div>
+                        <div class="p-6">
+                            <div class="flex items-center space-x-3 mb-4">
+                                <img src="https://images.unsplash.com/photo-1494790108755-2616b612b786?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" 
+                                     alt="Author" 
+                                     class="w-8 h-8 rounded-full">
+                                <span class="text-sm text-gray-600">Jane Smith</span>
+                                <span class="text-sm text-gray-400">•</span>
+                                <span class="text-sm text-gray-400">8 min read</span>
+                            </div>
+                            <h3 class="text-xl font-bold mb-3 group-hover:text-primary transition-colors">
+                                Machine Learning in Healthcare
+                            </h3>
+                            <p class="text-gray-600 line-clamp-3">
+                                How artificial intelligence is revolutionizing medical diagnosis, drug discovery, and personalized treatment plans.
+                            </p>
+                        </div>
+                    </div>
+                </article>
 
-              </ul>
-          </div>
-      </div>
-  </footer>
+                <article class="group cursor-pointer">
+                    <div class="bg-white rounded-2xl overflow-hidden shadow-sm hover-lift border border-gray-100">
+                        <div class="h-48 bg-gradient-to-br from-pink-400 to-purple-500 relative overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1518709268805-4e9042af2176?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                                 alt="Tech Article" 
+                                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
+                        </div>
+                        <div class="p-6">
+                            <div class="flex items-center space-x-3 mb-4">
+                                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" 
+                                     alt="Author" 
+                                     class="w-8 h-8 rounded-full">
+                                <span class="text-sm text-gray-600">Mike Johnson</span>
+                                <span class="text-sm text-gray-400">•</span>
+                                <span class="text-sm text-gray-400">12 min read</span>
+                            </div>
+                            <h3 class="text-xl font-bold mb-3 group-hover:text-primary transition-colors">
+                                Blockchain Beyond Crypto
+                            </h3>
+                            <p class="text-gray-600 line-clamp-3">
+                                Discovering real-world applications of blockchain technology in supply chain, healthcare, and digital identity management.
+                            </p>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
 
+    <!-- CTA Section -->
+    <section class="py-24 bg-gradient-to-br from-primary to-secondary">
+        <div class="container mx-auto px-6 text-center">
+            <h2 class="text-4xl lg:text-5xl font-bold text-white mb-8">Ready to Share Your Ideas?</h2>
+            <p class="text-xl text-white/90 mb-10 max-w-2xl mx-auto">
+                Join our community of tech enthusiasts and share your insights with readers worldwide
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="/blog/createblog" class="px-8 py-4 bg-white text-primary rounded-full hover:shadow-xl hover:scale-105 transition-all font-semibold">
+                    Write Your First Blog
+                </a>
+                <a href="/user/signup" class="px-8 py-4 border-2 border-white text-white rounded-full hover:bg-white hover:text-primary transition-all font-semibold">
+                    Join Community
+                </a>
+            </div>
+        </div>
+    </section>
 
-</div>
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-16">
+        <div class="container mx-auto px-6">
+            <div class="grid md:grid-cols-4 gap-8 mb-12">
+                <div>
+                    <div class="flex items-center space-x-3 mb-6">
+                        <div class="w-10 h-10 bg-gradient-to-br from-primary to-secondary rounded-xl flex items-center justify-center">
+                            <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M2 5a2 2 0 012-2h7a2 2 0 012 2v4a2 2 0 01-2 2H9l-3 3v-3H4a2 2 0 01-2-2V5z"/>
+                                <path d="M15 7v2a4 4 0 01-4 4H9.828l-1.766 1.767c.28.149.599.233.938.233h2l3 3v-3h2a2 2 0 002-2V9a2 2 0 00-2-2h-1z"/>
+                            </svg>
+                        </div>
+                        <span class="text-xl font-bold">Blogitech.io</span>
+                    </div>
+                    <p class="text-gray-400 leading-relaxed">
+                        Your gateway to tomorrow's technology. Discover, learn, and share the latest in tech innovation.
+                    </p>
+                </div>
+                
+                <div>
+                    <h3 class="font-semibold mb-4">Quick Links</h3>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#home" class="hover:text-white transition-colors">Home</a></li>
+                        <li><a href="#blogs" class="hover:text-white transition-colors">Blogs</a></li>
+                        <li><a href="/blog/createblog" class="hover:text-white transition-colors">Write</a></li>
+                        <li><a href="#about" class="hover:text-white transition-colors">About</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="font-semibold mb-4">Legal</h3>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" class="hover:text-white transition-colors">Privacy Policy</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Terms of Service</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Cookie Policy</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="font-semibold mb-4">Connect</h3>
+                    <div class="flex space-x-4">
+                        <a href="#" class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-primary transition-colors">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/>
+                            </svg>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-primary transition-colors">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M22.46 6c-.77.35-1.6.58-2.46.69.88-.53 1.56-1.37 1.88-2.38-.83.5-1.75.85-2.72 1.05C18.37 4.5 17.26 4 16 4c-2.35 0-4.27 1.92-4.27 4.29 0 .34.04.67.11.98C8.28 9.09 5.11 7.38 3 4.79c-.37.63-.58 1.37-.58 2.15 0 1.49.75 2.81 1.91 3.56-.71 0-1.37-.2-1.95-.5v.03c0 2.08 1.48 3.82 3.44 4.21a4.22 4.22 0 0 1-1.93.07 4.28 4.28 0 0 0 4 2.98 8.521 8.521 0 0 1-5.33 1.84c-.34 0-.68-.02-1.02-.06C3.44 20.29 5.7 21 8.12 21 16 21 20.33 14.46 20.33 8.79c0-.19 0-.37-.01-.56.84-.6 1.56-1.36 2.14-2.23z"/>
+                            </svg>
+                        </a>
+                        <a href="https://github.com/Ashwan1-yadav" class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-primary transition-colors">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 pt-8 text-center text-gray-400">
+                <p>&copy; 2024 Blogitech.io. All rights reserved. Built with ❤️ for tech enthusiasts.</p>
+            </div>
+        </div>
+    </footer>
 
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Header background on scroll
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('header');
+            if (window.scrollY > 100) {
+                header.style.background = 'rgba(255, 255, 255, 0.95)';
+                header.style.backdropFilter = 'blur(20px)';
+            } else {
+                header.style.background = 'rgba(255, 255, 255, 0.1)';
+                header.style.backdropFilter = 'blur(20px)';
+            }
+        });

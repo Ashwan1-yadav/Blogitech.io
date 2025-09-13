@@ -41,4 +41,8 @@ app.get("/", async (req, res) => {
   res.render("landingPage", { user: loggedInUser, blogs: allblogs,blog:blog });
 });
 
+app.get("/blogpage", async (req, res) => {
+  res.render("blogpage");
+});
+
 app.listen(port);
