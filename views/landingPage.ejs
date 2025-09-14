@@ -51,7 +51,9 @@
                 <div class="hidden md:flex space-x-8">
                     <a href="#" class="text-gray-700 hover:text-purple-600 font-medium transition-all duration-300 hover:scale-105">Home</a>
                     <a href="#features" class="text-gray-700 hover:text-purple-600 font-medium transition-all duration-300 hover:scale-105">Latest Trends</a>
+                    <a href="/blog/blogs/allblogs" class="text-gray-700 hover:text-purple-600 font-medium transition-all duration-300 hover:scale-105">Blogs</a>
                     <a href="/blog/createblog" class="text-gray-700 hover:text-purple-600 font-medium transition-all duration-300 hover:scale-105">Write A Blog</a>
+                    <a href="/about" class="text-gray-700 hover:text-purple-600 font-medium transition-all duration-300 hover:scale-105">About</a>
                 </div>
                 
                 <div class="flex items-center space-x-4">
@@ -112,7 +114,7 @@
                         <a href="/blog/createblog" class="px-8 py-4 bg-gradient-to-r from-primary to-primary-dark text-white rounded-full hover:shadow-xl hover:scale-105 transition-all font-semibold text-center">
                             Start Writing
                         </a>
-                        <a href="#blogs" class="px-8 py-4 border-2 border-primary text-primary rounded-full hover:bg-primary hover:text-white transition-all font-semibold text-center">
+                        <a href="/blog/blogs/allblogs" class="px-8 py-4 border-2 border-primary text-primary rounded-full hover:bg-primary hover:text-white transition-all font-semibold text-center">
                             Explore Blogs
                         </a>
                     </div>
@@ -194,88 +196,119 @@
                 </p>
             </div>
 
-            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- Sample Blog Cards -->
-                <article class="group cursor-pointer">
-                    <div class="bg-white rounded-2xl overflow-hidden shadow-sm hover-lift border border-gray-100">
-                        <div class="h-48 bg-gradient-to-br from-purple-400 to-blue-500 relative overflow-hidden">
-                            <img src="data:image/jpeg;base64,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" 
-                                 alt="Tech Article" 
-                                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
-                            <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
-                        </div>
-                        <div class="p-6">
-                            <div class="flex items-center space-x-3 mb-4">
-                                <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" 
-                                     alt="Author" 
-                                     class="w-8 h-8 rounded-full">
-                                <span class="text-sm text-gray-600">John Doe</span>
-                                <span class="text-sm text-gray-400">•</span>
-                                <span class="text-sm text-gray-400">5 min read</span>
+            <div id="blogsContainer" class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+                <% if(blogs && blogs.length > 0) { %>
+                    <% blogs.forEach(function(blog) { %>
+                        <a href="/blog/<%= blog._id %>">
+                            <article class="blog-card group cursor-pointer" data-title="<%= blog.title.toLowerCase() %>" data-author="<%= blog.createdBy ? blog.createdBy.fullname.toLowerCase() : 'unknown' %>">
+                                <div class="bg-white rounded-2xl overflow-hidden shadow-sm hover-lift border border-gray-100 h-full">
+                                    <!-- Blog Image -->
+                                    <div class="h-48 relative overflow-hidden">
+                                        <% if(blog.coverImageUrl) { %>
+                                            <img src="<%= blog.coverImageUrl %>" 
+                                                 alt="<%= blog.title %>" 
+                                                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                                                 onerror="this.src='https://images.unsplash.com/photo-1432888622747-4eb9a8efeb07?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'">
+                                        <% } else { %>
+                                            <div class="w-full h-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center">
+                                                <svg class="w-16 h-16 text-white/80" fill="currentColor" viewBox="0 0 20 20">
+                                                    <path d="M2 5a2 2 0 012-2h7a2 2 0 012 2v4a2 2 0 01-2 2H9l-3 3v-3H4a2 2 0 01-2-2V5z"/>
+                                                    <path d="M15 7v2a4 4 0 01-4 4H9.828l-1.766 1.767c.28.149.599.233.938.233h2l3 3v-3h2a2 2 0 002-2V9a2 2 0 00-2-2h-1z"/>
+                                                </svg>
+                                            </div>
+                                        <% } %>
+                                        <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                                    </div>
+    
+                                    <!-- Blog Content -->
+                                    <div class="p-6 flex flex-col h-full">
+                                        <!-- Author Info -->
+                                        <div class="flex items-center space-x-3 mb-4">
+                                            <% if(blog.createdBy?.profileImage) { %>
+                                                <img src="<%= blog.createdBy.profileImage %>" 
+                                                     alt="<%= blog.createdBy.fullname %>" 
+                                                     class="w-8 h-8 rounded-full object-cover">
+                                            <% } else { %>
+                                                <div class="w-8 h-8 bg-gradient-to-br from-primary to-secondary rounded-full flex items-center justify-center">
+                                                    <span class="text-white text-xs font-semibold">
+                                                        <%= blog.createdBy?.fullname.charAt(0).toUpperCase() %>
+                                                    </span>
+                                                </div>
+                                            <% } %>
+                                            <div class="flex-1 min-w-0">
+                                                <p class="text-sm font-medium text-gray-900 truncate">
+                                                    <%= blog.createdBy?.fullname %>
+                                                </p>
+                                                <p class="text-sm text-gray-500">
+                                                    <%= new Date(blog.createdAt).toLocaleDateString('en-US', { 
+                                                        year: 'numeric', 
+                                                        month: 'short', 
+                                                        day: 'numeric' 
+                                                    }) %>
+                                                </p>
+                                            </div>
+                                        </div>
+    
+                                        <!-- Blog Title -->
+                                        <h3 class="text-xl font-bold mb-3 group-hover:text-primary transition-colors line-clamp-2">
+                                            <%= blog.title %>
+                                        </h3>
+    
+                                        <!-- Blog Description -->
+                                        <p class="text-gray-600 line-clamp-3 mb-4 flex-grow">
+                                            <%= blog.blogDesc %>
+                                        </p>
+    
+                                        <!-- Read More Button -->
+                                        <div class="mt-auto">
+                                            <a href="/blog/<%= blog._id %>" 
+                                               class="inline-flex items-center text-primary font-semibold hover:text-primary-dark transition-colors group/link">
+                                                Read Full Article
+                                                <svg class="w-4 h-4 ml-2 group-hover/link:translate-x-1 transition-transform" fill="currentColor" viewBox="0 0 20 20">
+                                                    <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"/>
+                                                </svg>
+                                            </a>
+                                        </div>
+    
+                                        <!-- Tags (if you have them) -->
+                                        <% if(blog.tags && blog.tags.length > 0) { %>
+                                            <div class="flex flex-wrap gap-2 mt-4 pt-4 border-t border-gray-100">
+                                                <% blog.tags.forEach(function(tag) { %>
+                                                    <span class="px-2 py-1 text-xs font-medium bg-primary/10 text-primary rounded-full">
+                                                        #<%= tag %>
+                                                    </span>
+                                                <% }) %>
+                                            </div>
+                                        <% } %>
+                                    </div>
+                                </div>
+                            </article>
+                        </a>
+                    <% }) %>
+                <% } else { %>
+                    <!-- No Blogs Found -->
+                    <div class="col-span-full text-center py-16">
+                        <div class="max-w-md mx-auto">
+                            <div class="w-24 h-24 bg-gradient-to-br from-primary to-secondary rounded-full flex items-center justify-center mx-auto mb-6">
+                                <svg class="w-12 h-12 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M2 5a2 2 0 012-2h7a2 2 0 012 2v4a2 2 0 01-2 2H9l-3 3v-3H4a2 2 0 01-2-2V5z"/>
+                                    <path d="M15 7v2a4 4 0 01-4 4H9.828l-1.766 1.767c.28.149.599.233.938.233h2l3 3v-3h2a2 2 0 002-2V9a2 2 0 00-2-2h-1z"/>
+                                </svg>
                             </div>
-                            <h3 class="text-xl font-bold mb-3 group-hover:text-primary transition-colors">
-                                The Future of Web Development
-                            </h3>
-                            <p class="text-gray-600 line-clamp-3">
-                                Exploring the latest trends in web development including AI-powered tools, serverless architecture, and the rise of edge computing.
+                            <h3 class="text-2xl font-bold text-gray-900 mb-3">No Blogs Found</h3>
+                            <p class="text-gray-600 mb-6">
+                                Be the first to share your insights with our community.
                             </p>
+                            <a href="/blog/createblog" 
+                               class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-primary to-primary-dark text-white rounded-full font-semibold hover:shadow-xl hover:scale-105 transition-all">
+                                Write Your First Blog
+                                <svg class="w-5 h-5 ml-2" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"/>
+                                </svg>
+                            </a>
                         </div>
                     </div>
-                </article>
-
-                <article class="group cursor-pointer">
-                    <div class="bg-white rounded-2xl overflow-hidden shadow-sm hover-lift border border-gray-100">
-                        <div class="h-48 bg-gradient-to-br from-green-400 to-blue-500 relative overflow-hidden">
-                            <img src="https://images.unsplash.com/photo-1485827404703-89b55fcc595e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
-                                 alt="Tech Article" 
-                                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
-                            <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
-                        </div>
-                        <div class="p-6">
-                            <div class="flex items-center space-x-3 mb-4">
-                                <img src="https://images.unsplash.com/photo-1494790108755-2616b612b786?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" 
-                                     alt="Author" 
-                                     class="w-8 h-8 rounded-full">
-                                <span class="text-sm text-gray-600">Jane Smith</span>
-                                <span class="text-sm text-gray-400">•</span>
-                                <span class="text-sm text-gray-400">8 min read</span>
-                            </div>
-                            <h3 class="text-xl font-bold mb-3 group-hover:text-primary transition-colors">
-                                Machine Learning in Healthcare
-                            </h3>
-                            <p class="text-gray-600 line-clamp-3">
-                                How artificial intelligence is revolutionizing medical diagnosis, drug discovery, and personalized treatment plans.
-                            </p>
-                        </div>
-                    </div>
-                </article>
-
-                <article class="group cursor-pointer">
-                    <div class="bg-white rounded-2xl overflow-hidden shadow-sm hover-lift border border-gray-100">
-                        <div class="h-48 bg-gradient-to-br from-pink-400 to-purple-500 relative overflow-hidden">
-                            <img src="https://t4.ftcdn.net/jpg/02/80/23/05/360_F_280230556_JAkW4REfJhMvcwSvcn3IaaRHWtieFVwP.jpg" 
-                                 alt="Tech Article" 
-                                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
-                            <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
-                        </div>
-                        <div class="p-6">
-                            <div class="flex items-center space-x-3 mb-4">
-                                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" 
-                                     alt="Author" 
-                                     class="w-8 h-8 rounded-full">
-                                <span class="text-sm text-gray-600">Mike Johnson</span>
-                                <span class="text-sm text-gray-400">•</span>
-                                <span class="text-sm text-gray-400">12 min read</span>
-                            </div>
-                            <h3 class="text-xl font-bold mb-3 group-hover:text-primary transition-colors">
-                                Blockchain Beyond Crypto
-                            </h3>
-                            <p class="text-gray-600 line-clamp-3">
-                                Discovering real-world applications of blockchain technology in supply chain, healthcare, and digital identity management.
-                            </p>
-                        </div>
-                    </div>
-                </article>
+                <% } %>
             </div>
         </div>
     </section>
@@ -321,9 +354,9 @@
                     <h3 class="font-semibold mb-4">Quick Links</h3>
                     <ul class="space-y-2 text-gray-400">
                         <li><a href="#home" class="hover:text-white transition-colors">Home</a></li>
-                        <li><a href="#blogs" class="hover:text-white transition-colors">Blogs</a></li>
+                        <li><a href="/blog/blogs/allblogs" class="hover:text-white transition-colors">Blogs</a></li>
                         <li><a href="/blog/createblog" class="hover:text-white transition-colors">Write</a></li>
-                        <li><a href="#about" class="hover:text-white transition-colors">About</a></li>
+                        <li><a href="/about" class="hover:text-white transition-colors">About</a></li>
                     </ul>
                 </div>
                 

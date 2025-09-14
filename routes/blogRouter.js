@@ -61,4 +61,36 @@ router.post("/createblog", checkForAuthenticationCookie(), upload.single("coverI
   res.redirect(`/blog/${blog._id}`);
 });
 
+router.get('/blogs/allblogs',async (req, res) => {
+  try {
+    const tokenCookieVal = req.cookies?.cookie;
+    let user = null;
+
+    if (tokenCookieVal) {
+      try {
+        user = validateToken(tokenCookieVal);
+      } catch (error) {
+        user = null;
+      }
+    }
+
+   const blogs = await blogModel.find({ createdBy: { $ne: null } })
+  .populate('createdBy', 'fullname email profileImage')
+  .sort({ createdAt: -1 })
+  .lean();
+ 
+    res.render('blogsPage', { 
+      user: user,
+      blogs: blogs,
+      title: 'All Blogs - Blogitech.io'
+    });
+
+  } catch (error) {
+    return res.status(500).render('errorPage', { 
+      message: 'Something went wrong while fetching blogs',
+      user: null 
+    });
+  }
+});
+
 module.exports = router;

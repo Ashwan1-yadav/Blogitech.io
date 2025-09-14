@@ -1,6 +1,7 @@
 const { Router } = require("express");
 const router = Router();
 const userModel = require("../models/userModel");
+const blogModel = require("../models/blogModel");
 const { checkForAuthenticationCookie } = require("../middlewares/authentication");
 const { validateToken } = require("../services/authServices");
 
@@ -8,7 +9,7 @@ router.get("/signup", (req, res) => {
   res.render("register");
 });
 
-router.get("/", (req, res) => {
+router.get("/", async (req, res) => {
   const tokenCookieVal = req.cookies?.cookie;
   let user = null;
   if (tokenCookieVal) {
@@ -18,12 +19,17 @@ router.get("/", (req, res) => {
       user = null;
     }
   }
-  res.render("landingPage", { user: user });
+  const blogs = await blogModel.find({ createdBy: { $ne: null } })
+  .populate('createdBy', 'fullname email profileImage')
+  .sort({ createdAt: -1 })
+  .lean();
+  res.render("landingPage", { user: user, blogs: blogs });
 });
 
 router.get("/signin", (req, res) => {
   res.render("login");
 });
+
 
 router.get("/logout", checkForAuthenticationCookie(), (req, res) => {
   res.clearCookie("cookie").redirect("/");

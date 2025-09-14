@@ -28,4 +28,8 @@ if (!fs.existsSync(uploadPath)) {
   fs.mkdirSync(uploadPath, { recursive: true });
 }
 
+app.get("/about", (req, res) => {
+  res.render("about");
+});
+
 app.listen(port);
