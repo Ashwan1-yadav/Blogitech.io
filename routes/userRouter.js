@@ -1,14 +1,24 @@
 const { Router } = require("express");
 const router = Router();
-
 const userModel = require("../models/userModel");
 const { checkForAuthenticationCookie } = require("../middlewares/authentication");
+const { validateToken } = require("../services/authServices");
+
 router.get("/signup", (req, res) => {
   res.render("register");
 });
 
 router.get("/", (req, res) => {
-  res.render("landingPage");
+  const tokenCookieVal = req.cookies?.cookie;
+  let user = null;
+  if (tokenCookieVal) {
+    try {
+      user = validateToken(tokenCookieVal);
+    } catch (error) {
+      user = null;
+    }
+  }
+  res.render("landingPage", { user: user });
 });
 
 router.get("/signin", (req, res) => {

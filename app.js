@@ -7,7 +7,6 @@ const { databaseConnect } = require("./services/DBconnect");
 const cookieParser = require("cookie-parser");
 const userRouter = require("./routes/userRouter");
 const blogRouter = require("./routes/blogRouter");
-
 databaseConnect(process.env.MONGODB_URL || "mongodb://127.0.0.1:27017/blogspotio");
 
 app.set("view engine", "ejs");

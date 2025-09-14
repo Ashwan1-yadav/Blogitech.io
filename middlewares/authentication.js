@@ -1,5 +1,4 @@
 const { validateToken } = require("../services/authServices");
-
 function checkForAuthenticationCookie() {
   return (req, res, next) => {
     const tokenCookieVal = req.cookies?.cookie;
@@ -11,6 +10,7 @@ function checkForAuthenticationCookie() {
     try {
       const payload = validateToken(tokenCookieVal);
       req.user = payload;
+      currentUser = payload;
       return next();
     } catch (error) {
       return res.render("login", { error: "Login first" });
@@ -19,5 +19,5 @@ function checkForAuthenticationCookie() {
 }
 
 module.exports = {
-  checkForAuthenticationCookie
+  checkForAuthenticationCookie,
 };

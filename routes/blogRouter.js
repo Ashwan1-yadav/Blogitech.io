@@ -45,6 +45,13 @@ router.post("/comment/:blogId",checkForAuthenticationCookie(),async (req,res)=>{
 
 router.post("/createblog", checkForAuthenticationCookie(), upload.single("coverImageUrl"), async (req, res) => {
   const { title, blogDesc } = req.body;
+  const image = req.file;
+  if (!image) {
+    return res.render("blogpost", { error: "Please upload a cover image" });
+  }
+  if (!title || !blogDesc) {
+    return res.render("blogpost", { error: "All fields are required" });
+  } 
   const blog = await blogModel.create({
     title,
     blogDesc,
